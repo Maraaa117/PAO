@@ -1,4 +1,5 @@
 import objects.*;
+import util.ServiciuDate;
 import util.SortLider;
 
 import java.util.*;
@@ -20,8 +21,6 @@ public class Firma {
     }
 
     public void adaugaLider() {
-
-        in = new Scanner(System.in);
         System.out.println("Nume: ");
         String nume = in.nextLine();
         System.out.println("Prenume: ");
@@ -30,12 +29,88 @@ public class Firma {
         Integer experienta = in.nextInt();
         System.out.println("Salariu: ");
         Float salariu = in.nextFloat();
-        manager.getSubalterni().add(new Lider(nume, prenume, experienta, salariu, new ArrayList<>()));
+        in.nextLine();
+        Lider liderNou = new Lider(nume, prenume, experienta, salariu, new ArrayList<>());
+        manager.getSubalterni().add(liderNou);
+    }
+
+    public void adaugaProiect() {
+        System.out.println("Numarul liderului:");
+        Integer nr = in.nextInt();
+        in.nextLine();
+        if (nr > manager.getSubalterni().size() - 1)
+            System.out.println("Nu exista liderul cu indexul cautat.");
+        else
+        {
+            manager.getSubalterni().get(nr).getProiect().add(new Proiect(new Echipa(new HashSet<>())));
+        }
+    }
+
+    public void adaugaAngajat(int nr, int x) {
+        System.out.println("Selecteaza tipul angajatului: ");
+        System.out.println("1. Programator");
+        System.out.println("2. Designer");
+        System.out.println("3. Vanzator");
+
+        int numar = in.nextInt();
+        in.nextLine();
+
+        System.out.println("Nume: ");
+        String nume = in.nextLine();
+        System.out.println("Prenume: ");
+        String prenume = in.nextLine();
+        System.out.println("Experienta: ");
+        Integer experienta = in.nextInt();
+        System.out.println("Salariu: ");
+        Float salariu = in.nextFloat();
+        in.nextLine();
+
+        switch (numar) {
+            case 1:
+                System.out.println("Specializare: ");
+                String specializare = in.nextLine();
+                Programator prog = new Programator(nume, prenume, experienta, salariu, specializare);
+                manager.getSubalterni().get(nr).getProiect().get(x).getEchipa().getMembri().add(prog);
+                break;
+            case 2:
+                System.out.println("Specializare: ");
+                specializare = in.nextLine();
+                Designer desig = new Designer(nume, prenume, experienta, salariu, specializare);
+                manager.getSubalterni().get(nr).getProiect().get(x).getEchipa().getMembri().add(desig);
+                break;
+            case 3:
+                System.out.println("Comision: ");
+                Integer comision = in.nextInt();
+                Vanzator vanz = new Vanzator(nume, prenume, experienta, salariu, comision);
+                manager.getSubalterni().get(nr).getProiect().get(x).getEchipa().getMembri().add(vanz);
+                break;
+        }
+    }
+    public void adaugaMembri() {
+        System.out.println("Numarul liderului: ");
+        Integer nr = in.nextInt();
+        if (nr > manager.getSubalterni().size() - 1)
+            System.out.println("Nu exista liderul cu indexul cautat.");
+        else
+        {
+            System.out.println("Numarul proiectului: ");
+            Integer x = in.nextInt();
+            if (x > manager.getSubalterni().get(nr).getProiect().size() - 1)
+                System.out.println("Nu exista proiectul cu indexul cautat.");
+            else
+            {
+                adaugaAngajat(nr, x);
+                System.out.println("Doresti sa mai adaugi un angajat? (1 pentru da)");
+                if(in.nextInt() == 1)
+                {
+                    adaugaAngajat(nr, x);
+                }
+
+            }
+        }
     }
 
     public void schimbaManager() {
-
-        in = new Scanner(System.in);
         System.out.println("Nume: ");
         String nume = in.nextLine();
         manager.setNume(nume);
@@ -142,9 +217,9 @@ public class Firma {
             if (x > manager.getSubalterni().get(z).getProiect().size() - 1)
                 System.out.println("Nu exista proiectul cu indexul cautat.");
             else {
-                for(Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
-                    if(angajat instanceof Programator)
-                        System.out.println(((Programator)angajat).getSpecializare());
+                for (Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
+                    if (angajat instanceof Programator)
+                        System.out.println(((Programator) angajat).getSpecializare());
             }
         }
     }
@@ -160,12 +235,11 @@ public class Firma {
             if (x > manager.getSubalterni().get(z).getProiect().size() - 1)
                 System.out.println("Nu exista proiectul cu indexul cautat.");
             else {
-                for(Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
-                    if(angajat instanceof Programator)
-                    {
+                for (Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
+                    if (angajat instanceof Programator) {
                         System.out.println("Scrie specializare:");
                         String y = in.nextLine();
-                        ((Programator)angajat).setSpecializare(y);
+                        ((Programator) angajat).setSpecializare(y);
                     }
             }
         }
@@ -182,12 +256,11 @@ public class Firma {
             if (x > manager.getSubalterni().get(z).getProiect().size() - 1)
                 System.out.println("Nu exista proiectul cu indexul cautat.");
             else {
-                for(Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
-                    if(angajat instanceof Vanzator)
-                    {
+                for (Angajat angajat : manager.getSubalterni().get(z).getProiect().get(x).getEchipa().getMembri())
+                    if (angajat instanceof Vanzator) {
                         System.out.println("Comision nou:");
                         int y = in.nextInt();
-                        ((Vanzator)angajat).setComision(y);
+                        ((Vanzator) angajat).setComision(y);
                     }
             }
         }

@@ -1,2 +1,0 @@
-# PAO
-Proiect PAO
