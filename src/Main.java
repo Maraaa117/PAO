@@ -1,3 +1,5 @@
+import db.connection.DatabaseConnection;
+import db.service.AngajatService;
 import objects.*;
 import util.ServiciuDate;
 
@@ -25,7 +27,7 @@ public class Main {
         switch (in.nextInt()) {
             case 1:
                 firma.adaugaLider();
-                ServiciuDate.getInstance().scrieAudit("Lider adaugat");
+                //ServiciuDate.getInstance().scrieAudit("Lider adaugat");
                 break;
             case 2:
                 firma.adaugaProiect();
@@ -38,7 +40,7 @@ public class Main {
                 break;
             case 5:
                 firma.maresteSalariu();
-                ServiciuDate.getInstance().scrieAudit("Salariu Marit");
+                //ServiciuDate.getInstance().scrieAudit("Salariu Marit");
                 break;
             case 6:
                 firma.micsoreazaSalariu();
@@ -60,7 +62,7 @@ public class Main {
                 break;
             case 12:
                 firma.afiseazaLideri();
-                ServiciuDate.getInstance().scrieAudit("Lideri Afisati");
+                //ServiciuDate.getInstance().scrieAudit("Lideri Afisati");
                 break;
             case 13:
                 firma.schimbaComision();
@@ -77,30 +79,11 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         Manager manager = new Manager("Popescu", "Andrei", 10, 4500f, new ArrayList<>());
-        manager.getSubalterni().add(new Lider("Ionescu", "Marius", 8, 3000f, new ArrayList<>()));
-        manager.getSubalterni().get(0).getProiect().add(new Proiect(new Echipa(new HashSet<>())));
-        manager.getSubalterni().get(0).getProiect().get(0).getEchipa().getMembri().add(new Designer("Crisan", "Marcela", 5, 2000f, "Mobile"));
-        manager.getSubalterni().get(0).getProiect().get(0).getEchipa().getMembri().add(new Programator("Anton", "Valeriu", 7, 2800f, "FrontEnd"));
-        manager.getSubalterni().get(0).getProiect().get(0).getEchipa().getMembri().add(new Vanzator("Diaconu", "Florin", 4, 1850f, 15));
-
-        manager.getSubalterni().add(new Lider("Blagescu", "Marian", 9, 3300f, new ArrayList<>()));
-        manager.getSubalterni().get(1).getProiect().add(new Proiect(new Echipa(new HashSet<>())));
-        manager.getSubalterni().get(1).getProiect().get(0).getEchipa().getMembri().add(new Designer("Abel", "Casian", 7, 2900f, "Web"));
-        manager.getSubalterni().get(1).getProiect().get(0).getEchipa().getMembri().add(new Programator("Antel", "Valentina", 7, 2800f, "BackEnd"));
-        manager.getSubalterni().get(1).getProiect().get(0).getEchipa().getMembri().add(new Vanzator("Dias", "Alina", 2, 1500f, 80));
-
-        manager.getSubalterni().get(1).getProiect().add(new Proiect(new Echipa(new HashSet<>())));
-        manager.getSubalterni().get(1).getProiect().get(1).getEchipa().getMembri().add(new Designer("Asec", "Crina", 12, 5000f, "Web"));
-        manager.getSubalterni().get(1).getProiect().get(1).getEchipa().getMembri().add(new Programator("Ocis", "Andreea", 9, 3300f, "IA"));
-        manager.getSubalterni().get(1).getProiect().get(1).getEchipa().getMembri().add(new Vanzator("Nemus", "Erika", 5, 2700f, 60));
-
 
         Firma firma = new Firma(manager);
         manager.setSubalterni(ServiciuDate.getInstance().citesteLideri());
         ServiciuDate.getInstance().citesteProiectele(manager);
 
         afisare(in, firma);
-
-
     }
 }

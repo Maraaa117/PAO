@@ -1,7 +1,15 @@
 package util;
 
+import db.connection.DatabaseConnection;
+import db.repository.LiderRepo;
+import db.repository.ProiectRepo;
+import db.service.AngajatService;
+import db.service.EchipaService;
+import db.service.LiderService;
+import db.service.ProiectService;
 import objects.*;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.*;
@@ -52,6 +60,8 @@ public class ServiciuDate {
                 }
             }
         }
+
+        lista = LiderService.getInstance().getLideri();
 
         return lista;
     }
@@ -164,6 +174,7 @@ public class ServiciuDate {
             PrintWriter pw = new PrintWriter(fileWriter);
             for (int i = 0; i < manager.getSubalterni().size(); i++) {
                 pw.println(manager.getSubalterni().get(i).toString() + "," + i);
+                LiderRepo.getInstance().saveLider(manager.getSubalterni().get(i));
                 scrieProiecte(i, manager.getSubalterni().get(i).getProiect());
             }
             pw.close();
@@ -178,6 +189,7 @@ public class ServiciuDate {
             PrintWriter pw = new PrintWriter(fileWriter);
             for (int i = 0; i < proiects.size(); i++) {
                 pw.println(index + "," + i);
+                ProiectService.getInstance().saveProiect(index, i);
                 scrieEchipe(index, i, proiects.get(i).getEchipa());
             }
             pw.close();
@@ -191,6 +203,7 @@ public class ServiciuDate {
             FileWriter fileWriter = new FileWriter(echipeCSV, true);
             PrintWriter pw = new PrintWriter(fileWriter);
             pw.println(index + "," + index);
+            EchipaService.getInstance().saveEchipa(index);
             scrieAngajatii(indexLider, index, echipa.getMembri());
             pw.close();
         } catch (IOException e) {
@@ -203,12 +216,7 @@ public class ServiciuDate {
             FileWriter fileWriter = new FileWriter(angajatiCSV, true);
             PrintWriter pw = new PrintWriter(fileWriter);
             for (Angajat angajat : angajati) {
-                if (angajat instanceof Programator)
-                    pw.println(indexLider + "," + index + "," + ((Programator)angajat).toString());
-                else if (angajat instanceof Designer)
-                    pw.println(indexLider + "," + index + "," + ((Designer)angajat).toString());
-                else
-                    pw.println(indexLider + "," + index + "," + ((Vanzator)angajat).toString());
+                AngajatService.getInstance().saveUser(angajat);
 
             }
             pw.close();
@@ -222,6 +230,10 @@ public class ServiciuDate {
         echipeCSV.delete();
         proiecteCSV.delete();
         lideriCSV.delete();
+
+        try {
+            DatabaseConnection.getInstance().resetTables();
+        } catch (Exception e) {}
     }
 
     public String convertToCSV(String[] data) {

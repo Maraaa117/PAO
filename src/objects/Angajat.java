@@ -6,6 +6,10 @@ public class Angajat {
     private Integer experienta;
     private Float salariu;
 
+    public Angajat() {
+
+    }
+
     public String getNume() {
         return nume;
     }

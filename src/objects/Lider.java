@@ -11,6 +11,10 @@ public class Lider extends Angajat {
         this.proiect = proiect;
     }
 
+    public Lider() {
+
+    }
+
     public List<Proiect> getProiect() {
         return proiect;
     }

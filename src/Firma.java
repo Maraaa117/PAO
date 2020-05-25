@@ -1,5 +1,5 @@
 import objects.*;
-import util.ServiciuDate;
+
 import util.SortLider;
 
 import java.util.*;
@@ -40,8 +40,7 @@ public class Firma {
         in.nextLine();
         if (nr > manager.getSubalterni().size() - 1)
             System.out.println("Nu exista liderul cu indexul cautat.");
-        else
-        {
+        else {
             manager.getSubalterni().get(nr).getProiect().add(new Proiect(new Echipa(new HashSet<>())));
         }
     }
@@ -86,23 +85,21 @@ public class Firma {
                 break;
         }
     }
+
     public void adaugaMembri() {
         System.out.println("Numarul liderului: ");
         Integer nr = in.nextInt();
         if (nr > manager.getSubalterni().size() - 1)
             System.out.println("Nu exista liderul cu indexul cautat.");
-        else
-        {
+        else {
             System.out.println("Numarul proiectului: ");
             Integer x = in.nextInt();
             if (x > manager.getSubalterni().get(nr).getProiect().size() - 1)
                 System.out.println("Nu exista proiectul cu indexul cautat.");
-            else
-            {
+            else {
                 adaugaAngajat(nr, x);
                 System.out.println("Doresti sa mai adaugi un angajat? (1 pentru da)");
-                if(in.nextInt() == 1)
-                {
+                if (in.nextInt() == 1) {
                     adaugaAngajat(nr, x);
                 }
 
